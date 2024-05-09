@@ -17,7 +17,7 @@ public class DebtPayoffController {
 
     @GetMapping("/debts")
     public List<Debt> getAllDebts() {
-        return null;
+        return debtsDao.getAllDebts();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
