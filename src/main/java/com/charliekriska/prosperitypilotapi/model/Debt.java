@@ -1,23 +1,17 @@
 package com.charliekriska.prosperitypilotapi.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Debt {
 
-    public Debt() {}
-
     public Debt(String debtName, String debtType, double balance, double apr) {
-        this.debtName = debtName;
-        this.debtType = debtType;
-        this.balance = balance;
-        this.apr = apr;
-    }
-
-    public Debt(int debtId, String debtName, String debtType, double balance, double apr) {
-        this.debtId = debtId;
         this.debtName = debtName;
         this.debtType = debtType;
         this.balance = balance;
