@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Debt {
 
-    public Debt(String debtName, String debtType, double balance, double apr) {
+    public Debt(String debtName, String debtType, double balance, double apr, double minPayment) {
         this.debtName = debtName;
         this.debtType = debtType;
         this.balance = balance;
         this.apr = apr;
+        this.minPayment = minPayment;
     }
 
     private int debtId;
@@ -23,5 +24,6 @@ public class Debt {
     private String debtType;
     private double balance;
     private double apr;
+    private double minPayment;
 
 }

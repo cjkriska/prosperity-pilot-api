@@ -25,14 +25,15 @@ public class DebtsDao {
 
     @Transactional
     public Debt addDebt(Debt debt) {
-        final String INSERT_DEBT = "INSERT INTO debtsdata(debtName, debtType, balance, apr) " +
-                "VALUES(?,?,?,?)";
+        final String INSERT_DEBT = "INSERT INTO debtsdata(debtName, debtType, balance, apr, minPayment) " +
+                "VALUES(?,?,?,?,?)";
 
         jdbc.update(INSERT_DEBT,
                 debt.getDebtName(),
                 debt.getDebtType(),
                 debt.getBalance(),
-                debt.getApr()
+                debt.getApr(),
+                debt.getMinPayment()
                 );
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         debt.setDebtId(newId);
@@ -52,6 +53,7 @@ public class DebtsDao {
             debt.setDebtType(rs.getString("debtType"));
             debt.setBalance(rs.getDouble("balance"));
             debt.setApr(rs.getDouble("apr"));
+            debt.setMinPayment(rs.getDouble("minPayment"));
             return debt;
 
         }
