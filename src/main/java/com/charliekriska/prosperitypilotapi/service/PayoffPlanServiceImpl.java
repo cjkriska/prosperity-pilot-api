@@ -6,6 +6,7 @@ import com.charliekriska.prosperitypilotapi.model.PayoffStage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -19,6 +20,8 @@ public class PayoffPlanServiceImpl implements PayoffPlanService {
     @Override
     public List<PayoffStage> calculatePayoffStages(double additionalPayment) {
 
+        List<PayoffStage> payoffStages = new ArrayList<PayoffStage>();
+
         List<Debt> debts = debtsDao.getAllDebts();
         Collections.sort(debts, new DebtComparator());
 
@@ -27,26 +30,43 @@ public class PayoffPlanServiceImpl implements PayoffPlanService {
         int months = 0;
         double carryover = 0.0;
 
-        for(Debt debt : debts) {
-            double currentDebtBalance = debt.getBalance() - carryover;
-            System.out.println(currentDebtBalance);
-            while(currentDebtBalance >= 0.0) {
-                // Since you are making payments on all debts concurrently, you need to apply this code simultaneously on the other debts as well
-                // while only having the additionalPayment affect the first debt in the list
-                currentDebtBalance *= (1 + debt.getApr()/12/100);
-                currentDebtBalance -= debt.getMinPayment();
-                currentDebtBalance -= additionalPayment;
-                months++;
-                System.out.println(currentDebtBalance);
+        while(!debts.isEmpty()) {
+
+            for(int i=0; i < debts.size(); i++) {
+
+                if(debts.get(i).getBalance() >= 0.0) {
+                    debts.get(i).setBalance(debts.get(i).getBalance() * (1 + debts.get(i).getApr()/12/100));
+                    debts.get(i).setBalance(debts.get(i).getBalance() - debts.get(i).getMinPayment());
+                    debts.get(i).setBalance(debts.get(i).getBalance() - carryover);
+                    carryover = 0.0;
+                    if(i == 0) {
+                        debts.get(i).setBalance(debts.get(i).getBalance() - additionalPayment);
+                    }
+                } else {
+                    carryover = Math.abs(debts.get(i).getBalance());
+                    additionalPayment += debts.get(i).getMinPayment();
+                    payoffStages.add(PayoffStage.builder()
+                            .payoffStageId(payoffStages.size()+1)
+                            .months(months)
+                            .debtName(debts.get(i).getDebtName())
+                            .build());
+                    debts.remove(i);
+                    months--;
+                }
+
             }
-            carryover = currentDebtBalance;
+
+            months++;
+
         }
 
-        System.out.println(months);
+        System.out.println("TOTAL MONTHS: " + months);
+        System.out.println("TOTAL YEARS: " + months/12 + " Years, " + months%12 + " months");
 
-        return null;
+        return payoffStages;
     }
 
+    // TODO
     public static boolean checkForIncreasingBalance() {
         return true;
     }

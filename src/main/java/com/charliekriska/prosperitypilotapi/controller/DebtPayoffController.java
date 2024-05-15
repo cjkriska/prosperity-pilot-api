@@ -31,9 +31,9 @@ public class DebtPayoffController {
         return debtsDao.addDebt(debt);
     }
 
-    @GetMapping("testCalculatePayoffStages")
-    public List<PayoffStage> calculatePayoffStages() {
-        return payoffPlanService.calculatePayoffStages(0.00);
+    @GetMapping("testCalculatePayoffStages/{additionalPayment}")
+    public List<PayoffStage> calculatePayoffStages(@PathVariable double additionalPayment) {
+        return payoffPlanService.calculatePayoffStages(additionalPayment);
     }
 
 }
