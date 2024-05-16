@@ -28,6 +28,7 @@ public class PayoffPlanServiceImpl implements PayoffPlanService {
         double totalBalance = debts.stream().mapToDouble(debt -> debt.getBalance()).sum();
 
         int months = 0;
+        int prevMonths = 0;
         double carryover = 0.0;
 
         while(!debts.isEmpty()) {
@@ -47,10 +48,19 @@ public class PayoffPlanServiceImpl implements PayoffPlanService {
                     additionalPayment += debts.get(i).getMinPayment();
                     payoffStages.add(PayoffStage.builder()
                             .payoffStageId(payoffStages.size()+1)
-                            .months(months)
+                            .months(months-prevMonths)
                             .debtName(debts.get(i).getDebtName())
+                            .apr(debts.get(i).getApr())
+                            .build());
+                    // TODO
+                    payoffStages.add(PayoffStage.builder()
+                            .payoffStageId(payoffStages.size()+1)
+                            .months(1)
+                            .debtName(debts.get(i).getDebtName())
+                            .apr(debts.get(i).getApr())
                             .build());
                     debts.remove(i);
+                    prevMonths = months;
                     months--;
                 }
 
