@@ -49,15 +49,13 @@ public class PayoffPlanServiceImpl implements PayoffPlanService {
                     payoffStages.add(PayoffStage.builder()
                             .payoffStageId(payoffStages.size()+1)
                             .months(months-prevMonths)
-                            .debtName(debts.get(i).getDebtName())
-                            .apr(debts.get(i).getApr())
+                            .debts(List.of(debts.get(i)))
                             .build());
                     // TODO
                     payoffStages.add(PayoffStage.builder()
                             .payoffStageId(payoffStages.size()+1)
                             .months(1)
-                            .debtName(debts.get(i).getDebtName())
-                            .apr(debts.get(i).getApr())
+                            .debts(List.of(debts.get(i)))
                             .build());
                     debts.remove(i);
                     prevMonths = months;

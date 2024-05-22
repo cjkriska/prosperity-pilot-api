@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -13,7 +15,6 @@ public class PayoffStage {
 
     private int payoffStageId;
     private int months;
-    private String debtName;
-    private double apr;
+    private List<Debt> debts;
 
 }
