@@ -55,7 +55,7 @@ public class PayoffPlanServiceImpl implements PayoffPlanService {
                     payoffStages.add(PayoffStage.builder()
                             .payoffStageId(payoffStages.size()+1)
                             .months(1)
-                            .debts(List.of(debts.get(i)))
+                            .debts(List.of(debts.get(i), debts.size()>1 ? debts.get(i+1) : debts.get(i)))
                             .build());
                     debts.remove(i);
                     prevMonths = months;
