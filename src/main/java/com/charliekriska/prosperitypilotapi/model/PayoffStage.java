@@ -15,6 +15,10 @@ public class PayoffStage {
 
     private int payoffStageId;
     private int months;
+    private String mainPaymentName;
+    private double mainPaymentAmount;
+    private String secondaryPaymentName;
+    private String secondaryPaymentAmount;
     private List<Debt> debts;
 
 }

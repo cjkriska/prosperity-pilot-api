@@ -20,6 +20,20 @@ public class PayoffPlanServiceImpl implements PayoffPlanService {
     @Override
     public List<PayoffStage> calculatePayoffStages(double additionalPayment) {
 
+        List<PayoffStage> payoffStages = new ArrayList<>();
+
+        List<Debt> debts = debtsDao.getAllDebts();
+        Collections.sort(debts, new DebtComparator());
+
+
+
+
+        return payoffStages;
+    }
+
+
+    public List<PayoffStage> calculatePayoffStagesTST(double additionalPayment) {
+
         List<PayoffStage> payoffStages = new ArrayList<PayoffStage>();
 
         List<Debt> debts = debtsDao.getAllDebts();
