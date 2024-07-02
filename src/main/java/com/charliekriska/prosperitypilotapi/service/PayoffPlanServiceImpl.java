@@ -25,7 +25,7 @@ public class PayoffPlanServiceImpl implements PayoffPlanService {
         List<Debt> debts = debtsDao.getAllDebts();
         Collections.sort(debts, new DebtComparator());
 
-
+        double totalMonthlyMinPayment = debts.stream().mapToDouble(debt -> debt.getMinPayment()).sum();
 
 
         return payoffStages;
